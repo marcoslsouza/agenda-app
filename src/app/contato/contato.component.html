@@ -1,42 +1,14 @@
-<mat-toolbar>
-    <mat-icon>account_circle</mat-icon>
-    Contatos
-</mat-toolbar>
+<mat-toolbar>Contatos</mat-toolbar>
+<form [formGroup]="formulario" (ngSubmit)="submit()">
+    <mat-form-field class="full-width">
+        <mat-label>Nome: </mat-label>
+        <input formControlName="nome" matInput placeholder="Digite seu nome" />
+    </mat-form-field>
 
-<mat-tab-group>
-    <mat-tab>
-        <!-- Label dinamica -->
-        <ng-template mat-tab-label>
-            <mat-icon>list</mat-icon>
-            Todos
-        </ng-template>
-    </mat-tab>
-    <mat-tab> <!-- label="Novo" -->
-        <ng-template mat-tab-label>
-            <mat-icon>face</mat-icon>
-            Novo
-        </ng-template>
-        <mat-card class="half-width">
-            <mat-card-title>Novo Contato</mat-card-title>
-            <form [formGroup]="formulario" (ngSubmit)="submit()">
-                <mat-form-field class="full-width">
-                    <mat-label>Nome: </mat-label>
-                    <input formControlName="nome" matInput placeholder="Digite seu nome" />
-                </mat-form-field>
-                <div *ngIf="formulario.controls.nome.errors">
-                    <div *ngIf="formulario.controls.nome.errors.required">Campo nome é obrigatório.</div>
-                </div>
-            
-                <mat-form-field class="full-width">
-                    <mat-label>E-mail: </mat-label>
-                    <input formControlName="email" matInput placeholder="Digite seu e-mail" />
-                </mat-form-field>
-                <div *ngIf="formulario.controls.email.errors">
-                    <div *ngIf="formulario.controls.email.errors.email">Campo e-mail invalido.</div>
-                </div>
-            
-                <button mat-button color="primary">Adicionar</button> <!-- [disabled]="!formulario.valid" -->
-            </form>
-        </mat-card>
-    </mat-tab>
-</mat-tab-group>
+    <mat-form-field class="full-width">
+        <mat-label>E-mail: </mat-label>
+        <input formControlName="email" matInput placeholder="Digite seu e-mail" />
+    </mat-form-field>
+
+    <button mat-button color="primary">Adicionar</button>
+</form>
