@@ -12,6 +12,10 @@ import {MatInputModule} from '@angular/material/input';
 import { ContatoComponent } from './contato/contato.component';
 import { ContatoService } from './contato.service';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -25,9 +29,13 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatButtonModule,
     MatToolbarModule,
     MatInputModule,
-    BrowserAnimationsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatTabsModule,
+    MatTableModule,
+    MatIconModule,
+    MatCardModule,
+    BrowserAnimationsModule
   ],
   providers: [
     ContatoService
