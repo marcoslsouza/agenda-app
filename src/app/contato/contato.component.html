@@ -10,6 +10,40 @@
             <mat-icon>list</mat-icon>
             Todos
         </ng-template>
+
+        <mat-card>
+
+            <table mat-table [dataSource]="contatos" class="full-width">
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef>ID</th>
+                    <td mat-cell *matCellDef="let contato"> {{contato.id}} </td>
+                </ng-container>
+                <ng-container matColumnDef="nome">
+                    <th mat-header-cell *matHeaderCellDef>NOME</th>
+                    <td mat-cell *matCellDef="let contato"> {{contato.nome}} </td>
+                </ng-container>
+                <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef>E-MAIL</th>
+                    <td mat-cell *matCellDef="let contato"> {{contato.email}} </td>
+                </ng-container>
+                <ng-container matColumnDef="favorito">
+                    <th mat-header-cell *matHeaderCellDef>FAVORITO</th>
+                    
+                    <td mat-cell *matCellDef="let contato">
+                        <a href="#" (click)="favorite(contato)">
+                            <mat-icon>{{ contato.favorito ? 'favorite' : 'favorite_border' }}</mat-icon>
+                        </a>
+                    </td>
+                
+                </ng-container>
+
+                <!-- Definicao de colunas -->
+                <tr mat-header-row *matHeaderRowDef="colunas"></tr>
+                <!-- Definicao de linhas -->
+                <tr mat-row *matRowDef="let row; columns: colunas;"></tr>
+            </table>
+        </mat-card>
+
     </mat-tab>
     <mat-tab> <!-- label="Novo" -->
         <ng-template mat-tab-label>
@@ -35,7 +69,7 @@
                     <div *ngIf="formulario.controls.email.errors.email">Campo e-mail invalido.</div>
                 </div>
             
-                <button mat-button color="primary">Adicionar</button> <!-- [disabled]="!formulario.valid" -->
+                <button mat-raised-button color="primary">Adicionar</button> <!-- [disabled]="!formulario.valid" -->
             </form>
         </mat-card>
     </mat-tab>

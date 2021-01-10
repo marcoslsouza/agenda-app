@@ -12,13 +12,34 @@ export class ContatoComponent implements OnInit {
 
   formulario : FormGroup;
   contatos : Contato[] = [];
+  // Define a ordem do cabecalho das colunas da tabela.
+  colunas = ["id", "nome", "email", "favorito"];
 
   constructor(private service : ContatoService, private fb : FormBuilder) { }
 
   ngOnInit(): void {
+    this.montarFormulario();
+
+    this.listarContatos();
+  }
+
+  montarFormulario() {
     this.formulario = this.fb.group({
       nome : ['', Validators.required],
       email : ['', [Validators.email, Validators.required]]
+    });
+  }
+
+  listarContatos() {
+    this.service.list().subscribe(
+      response => {
+        this.contatos = response;
+      });
+  }
+
+  favorite(contato : Contato) {
+    this.service.favorite(contato).subscribe(response => {
+      contato.favorito = !contato.favorito;
     });
   }
 
