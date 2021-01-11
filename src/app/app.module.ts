@@ -16,11 +16,14 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ContatoDetalheComponent } from './contato-detalhe/contato-detalhe.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ContatoComponent
+    ContatoComponent,
+    ContatoDetalheComponent
   ],
   imports: [
     BrowserModule,
@@ -35,6 +38,7 @@ import { MatCardModule } from '@angular/material/card';
     MatTableModule,
     MatIconModule,
     MatCardModule,
+    MatDialogModule,
     BrowserAnimationsModule
   ],
   providers: [
