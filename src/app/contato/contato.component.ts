@@ -5,6 +5,8 @@ import { Contato } from './contato';
 import { MatDialog } from '@angular/material/dialog';
 
 import { ContatoDetalheComponent } from '../contato-detalhe/contato-detalhe.component';
+import { PageEvent } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-contato',
@@ -18,12 +20,19 @@ export class ContatoComponent implements OnInit {
   // Define a ordem do cabecalho das colunas da tabela.
   colunas = ["foto", "id", "nome", "email", "favorito"];
 
-  constructor(private service : ContatoService, private fb : FormBuilder, private dialog : MatDialog) { }
+  /*********************************Paginacao */
+  totalElementos = 0;
+  pagina = 0;
+  tamanho = 10;
+  pageSizeOptions : number[] = [10];
+  /*********************************Fim Paginacao */
+
+  constructor(private service : ContatoService, private fb : FormBuilder, private dialog : MatDialog, private snackbar : MatSnackBar) { }
 
   ngOnInit(): void {
     this.montarFormulario();
 
-    this.listarContatos();
+    this.listarContatos(this.pagina, this.tamanho);
   }
 
   montarFormulario() {
@@ -33,12 +42,25 @@ export class ContatoComponent implements OnInit {
     });
   }
 
-  listarContatos() {
-    this.service.list().subscribe(
+/*********************************Paginacao */
+  // Listar os contatos paginados.
+  listarContatos(page = 0, size = 10) {
+    this.service.list(page, size).subscribe(
+      // response, pois em contato.service.ts a "funcao list(page, size) : Observable<PaginaContato>" recebe um Observable de PaginaContato.
       response => {
-        this.contatos = response;
+        this.contatos = response.content;
+        this.totalElementos = response.totalElements;
+        this.pagina = response.number;
       });
   }
+
+  // Ao clicar no paginator
+  paginar(event : PageEvent) {
+    // Ao clicar no botão da proxima pagina "event.pageIndex" indica a pagina que deseja ir.
+    this.pagina = event.pageIndex;
+    this.listarContatos(this.pagina, this.tamanho);
+  }
+  /******************************************Fim paginacao */
 
   favorite(contato : Contato) {
     this.service.favorite(contato).subscribe(response => {
@@ -87,11 +109,12 @@ export class ContatoComponent implements OnInit {
     
     const formValues = this.formulario.value;
     const contato : Contato = new Contato(formValues.nome, formValues.email);
-    this.service.save(contato).subscribe(resposta => { 
-      // console.log(resposta); 
-      let linha : Contato[] = [...this.contatos, resposta];
-      this.contatos = linha;
-      console.log(this.contatos);
+    this.service.save(contato).subscribe(resposta => {  
+      //let linha : Contato[] = [...this.contatos, resposta];
+      //this.contatos = linha;
+      this.listarContatos();
+      this.snackbar.open("Contato adicionado!", 'Sucesso!', {duration: 2000});
+      this.formulario.reset();
     })
   }
 
