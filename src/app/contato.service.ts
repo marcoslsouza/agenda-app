@@ -24,4 +24,9 @@ export class ContatoService {
   favorite(contato : Contato) : Observable<any> {
     return this.http.patch(`${this.url}/${contato.id}/favorito`, null);
   }
+
+  upload(contato : Contato, formData : FormData) : Observable<any> {
+    // Transforma a resposta para um array de bytes e nao json.
+    return this.http.put(`${this.url}/${contato.id}/foto`, formData, {responseType : 'blob'})
+  }
 }

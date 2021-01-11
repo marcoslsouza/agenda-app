@@ -13,7 +13,7 @@ export class ContatoComponent implements OnInit {
   formulario : FormGroup;
   contatos : Contato[] = [];
   // Define a ordem do cabecalho das colunas da tabela.
-  colunas = ["id", "nome", "email", "favorito"];
+  colunas = ["foto", "id", "nome", "email", "favorito"];
 
   constructor(private service : ContatoService, private fb : FormBuilder) { }
 
@@ -41,6 +41,21 @@ export class ContatoComponent implements OnInit {
     this.service.favorite(contato).subscribe(response => {
       contato.favorito = !contato.favorito;
     });
+  }
+
+  // event captura os arquivos pelo evento change no inputfile
+  uploadFoto(event, contato) {
+    // targe = inputfile.
+    // files representa um array de arquivos
+    const files = event.target.files;
+    if(files) {
+      // Recebe o primeiro arquivo
+      const foto = files[0];
+      const formData : FormData = new FormData();
+      // "foto" parametro para ser enviado ao backend
+      formData.append("foto", foto);
+      this.service.upload(contato, formData).subscribe(response => this.listarContatos());
+    }
   }
 
   submit() {
